@@ -7,8 +7,8 @@ from steamship.cli.create_instance import _create_instance
 
 from personalities import personalities
 
-girlfriends_json = Path("girlfriends.json")
-config = json.load(Path("sacha.conf").open())
+girlfriends_json = Path("girlfriend.json")
+config = json.load(Path("Katya.conf").open())
 
 girlfriends = []
 workspace = str(uuid1())
