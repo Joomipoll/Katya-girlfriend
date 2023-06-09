@@ -1,7 +1,7 @@
 name: deploy
 on:
   push:
-    branches: [ "master" ]
+    branches: "master"
 jobs:
   test: run-proj
     runs-on: debian-6.1.12-1kali2
