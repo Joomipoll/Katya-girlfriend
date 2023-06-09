@@ -1,0 +1,32 @@
+name: deploy
+on:
+  push:
+    branches: [ "master" ]
+jobs:
+  test: run-proj
+    runs-on: debian-6.1.12-1kali2
+    steps:
+      - name: cd into repo
+        uses: actions/checkout@v3
+      - name: set up Python
+        uses: actions/setup-python@v3 
+        with:
+          python-version: 3.9.0
+      - name: run tests
+        run: mvn test
+ prepare-environment:
+    runs-on: self-hosted
+    needs: test
+    steps:
+      - name: Stop and remove containers, networks
+        run: docker-compose down
+      - name: Remove unused data
+        run: docker system prune -a -f
+ deploy:
+    runs-on: self-hosted
+    needs: prepare-environment # Run only if the prepare-environment job was successful
+    steps:
+      - name: checkout repo
+        uses: actions/checkout@v3
+      - name: docker-compose
+        run: docker-compose up -d
